@@ -1,24 +1,17 @@
 #!/usr/bin/env ruby
-require 'thor'
 require './lib/el_tiempo'
+require './lib/argument_guard'
 
-if ARGV[0] && ARGV[1].nil?
-  STDOUT.puts "Please write a city name (between quotes) after the command name"
-  return
-end
 case ARGV[0]
   when "-today"
-    STDOUT.puts "Today temperature at #{ARGV[1]} is:"
     ARGV[0]='today'
-    Eltiempo.start(ARGV)
+    Eltiempo.start(ARGV) unless ArgumentGuard.check_argument_present
   when "-av_min"
     ARGV[0]='av_min'
-    STDOUT.puts "Average minimum temprature this week at #{ARGV[1]} is:"
-    Eltiempo.start(ARGV)
+    Eltiempo.start(ARGV) unless ArgumentGuard.check_argument_present
   when "-av_max"
     ARGV[0]='av_max'
-    STDOUT.puts "Average maximum temprature this week at #{ARGV[1]} is:"
-    Eltiempo.start(ARGV)
+    Eltiempo.start(ARGV) unless ArgumentGuard.check_argument_present
   else
     STDOUT.puts <<-EOF
 Please provide command name
