@@ -10,12 +10,8 @@ module ApiService
   MAX = 'Temperatura Máxima'
 
   def self.today(city)
-    begin
-      url = self.get_url_for(city)
-    rescue ArgumentError => e
-      puts e.message
-      exit
-    end
+    raise CityNotFoundError.new(url.message) if url.error?
+
     url +=WITH_AFF_ID+JSON_RESP
     response = RestClient.get(url)
     ResponseParse.today_response(response)
