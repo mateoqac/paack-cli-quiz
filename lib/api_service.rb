@@ -4,7 +4,6 @@ require './lib/response_parse'
 module ApiService
 
   BASE_URL = 'http://api.tiempo.com/index.php?api_lang=es&division=102&'
-  # AFFILIATE_ID = 'zdo2c683olan'
   WITH_AFF_ID = "&affiliate_id=#{ENV['AFFILIATE_ID']}"
   JSON_RESP = '&v=3.0'
   MIN = 'Temperatura Mínima'
