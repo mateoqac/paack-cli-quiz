@@ -1,17 +1,22 @@
 require 'rest-client'
 require './lib/response_parse'
+require 'pry'
 
 module ApiService
 
-  BASE_URL = 'http://api.tiempo.com/index.php?api_lang=es&division=102&'
+  BASE_URL = 'http://api.tiempo.com/index.php?api_lang=es&division=102'
   WITH_AFF_ID = "&affiliate_id=#{ENV['AFFILIATE_ID']}"
   JSON_RESP = '&v=3.0'
   MIN = 'Temperatura Mínima'
   MAX = 'Temperatura Máxima'
 
   def self.today(city)
-    raise CityNotFoundError.new(url.message) if url.error?
-
+    begin
+      url = self.get_url_for(city)
+    rescue ArgumentError => e
+      return  e.message
+    end
+    
     url +=WITH_AFF_ID+JSON_RESP
     response = RestClient.get(url)
     ResponseParse.today_response(response)
@@ -21,9 +26,9 @@ module ApiService
     begin
       url = self.get_url_for(city)
     rescue ArgumentError => e
-      puts e.message
-      exit
+      return e.message
     end
+
     url +=WITH_AFF_ID
     response = RestClient.get(url)
     ResponseParse.average_response(response, key)
