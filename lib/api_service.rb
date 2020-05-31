@@ -1,6 +1,5 @@
 require 'rest-client'
 require './lib/response_parse'
-require 'pry'
 
 module ApiService
 
@@ -16,7 +15,7 @@ module ApiService
     rescue ArgumentError => e
       return  e.message
     end
-    
+
     url +=WITH_AFF_ID+JSON_RESP
     response = RestClient.get(url)
     ResponseParse.today_response(response)
